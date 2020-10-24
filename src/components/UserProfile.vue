@@ -20,8 +20,11 @@
     <div class="postlist">
 
     <PostItem 
-    v-for="post in user.posts" :key="post.id" 
-    :username="user.username" :post="post" />
+    v-for="post in user.posts" 
+    :key="post.id" 
+    :username="user.username" 
+    :post="post" 
+    @fav="toggleFav" />
 
 
 
@@ -71,6 +74,9 @@ import PostItem from "./PostItem";
         methods: {
         followUser() {
             this.followers++;
+        },
+        toggleFav(id) {
+            console.log(`favorited post with id ${id}`)
         }
         },
         mounted() {
