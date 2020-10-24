@@ -7,6 +7,9 @@
         <div class="user-isadmin" v-if="user.isAdmin">
         Admin
         </div>
+        <div class="user-notadmin" v-else>
+        Normal user
+        </div>
 
         <button @click="followUser">Follow {{user.username}}</button>
         <br />
@@ -14,46 +17,65 @@
         <sub style="font-weight:bold;">Followers: {{ followers }} </sub>
     </div>
 
+    <div class="postlist">
+
+    <PostItem 
+    v-for="post in user.posts" :key="post.id" 
+    :username="user.username" :post="post" />
+
+
+
     </div>
+    </div>
+
+    
 </template>
 
 
 <script>
+import PostItem from "./PostItem";
+
     export default {
     name: 'UserProfile',
+
+    components: { PostItem },
     data() {
-    return {
-        followers: 0,
-        user: {
-        id: 1,
-        username: 'aaron_taylor',
-        firstName: 'Aaron',
-        lastName: 'Taylor',
-        email: 'aarontaylor@gmail.com',
-        isAdmin: true
+        return {
+            followers: 0,
+            user: {
+                id: 1,
+                username: 'aaron_taylor',
+                firstName: 'Aaron',
+                lastName: 'Taylor',
+                email: 'aarontaylor@gmail.com',
+                isAdmin: true,
+                posts: [
+                    {id: 1, content: 'Hello world...'},
+                    {id: 2, content: 'Goodbye world...'}
+                ]
+            }
         }
-    }
-    },
-    watch: {
-    followers(newCount, oldCount) {
-        if (oldCount < newCount) {
-        console.log(`${this.user.username} gained a follower.`)
+        },
+        watch: {
+        followers(newCount, oldCount) {
+            if (oldCount < newCount) {
+            console.log(`${this.user.username} gained a follower.`)
+            }
         }
-    }
-    },
-    computed: {
-    fullName() {
-        return `${this.user.firstName} ${this.user.lastName}`;
-    }
-    },
-    methods: {
-    followUser() {
-        this.followers++;
-    }
-    },
-    mounted() {
-    this.followUser();
-    }
+        },
+        computed: {
+        fullName() {
+            return `${this.user.firstName} ${this.user.lastName}`;
+        }
+        },
+        methods: {
+        followUser() {
+            this.followers++;
+        }
+        },
+        mounted() {
+        this.followUser();
+        }
 
     }
 </script>
@@ -64,7 +86,8 @@
         display:grid;
         grid-template-columns: 1fr 3fr;
         width: 100%;
-        padding: 50px 5%;
+        padding: 10px 3%;
+
     }
     .panel {
         display:flex;
@@ -85,4 +108,20 @@
     padding: 0px 6px;
     font-weight:bold;
     }
+    .user-notadmin {
+    background:lightgray;
+    color:green;
+    border-radius:4px;
+    margin-right:auto;
+    margin-bottom: 2px;
+    padding: 0px 6px;
+    font-weight:bold;
+    }
+
+    .postlist  {
+    display: grid;
+    grid-gap: 10px;
+    margin-bottom: auto;
+    margin-right:80px;
+  }
 </style>
